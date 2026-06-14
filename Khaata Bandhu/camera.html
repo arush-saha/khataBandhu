@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Khaata Bandhu Camera</title>
+  <script src="tesseract.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      gap: 16px;
+    }
+    h2 { color: #34d399; font-size: 20px; }
+    #cameraBox {
+      position: relative;
+      width: 480px;
+      height: 320px;
+      background: #020617;
+      border: 2px solid #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #canvas { display: none; }
+    #overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(2,6,23,0.7);
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      padding: 12px 28px;
+      border-radius: 8px;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-green {
+      background: #10b981;
+      color: #fff;
+      border: 2px solid #34d399;
+    }
+    .btn-green:hover { background: #059669; }
+    .btn-green:disabled {
+      background: #334155;
+      border-color: #475569;
+      cursor: not-allowed;
+      color: #64748b;
+    }
+    .btn-red {
+      background: #1e293b;
+      color: #f87171;
+      border: 2px solid #f87171;
+    }
+    .btn-red:hover { background: #450a0a; }
+    .status {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #10b981;
+      min-height: 18px;
+    }
+    #resultBox {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      width: 480px;
+      display: none;
+      text-align: center;
+    }
+    .result-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .result-text {
+      font-size: 20px;
+      font-weight: 800;
+      color: #34d399;
+      margin-top: 6px;
+    }
+    .raw-text {
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    #preview {
+      width: 480px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>📷 KHAATA BANDHU Camera OCR</h2>
+
+  <div id="cameraBox">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+    <div id="overlay">Starting camera...</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-green" id="captureBtn" disabled>📸 Capture & Scan</button>
+    <button class="btn btn-red" id="retryBtn" style="display:none">🔄 Retake</button>
+  </div>
+
+  <div class="status" id="statusText">Initializing camera...</div>
+
+  <img id="preview" alt="Captured snapshot" />
+
+  <div id="resultBox">
+    <div class="result-label">Transaction Mapped:</div>
+    <div class="result-text" id="resultText"></div>
+    <div class="raw-text" id="rawText"></div>
+  </div>
+
+  <script src="camera.js"></script>
+</body>
+</html>

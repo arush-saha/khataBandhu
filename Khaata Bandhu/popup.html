@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="tesseract.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      width: 340px;
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #334155;
+      margin-bottom: 14px;
+    }
+    .logo-icon {
+      font-size: 24px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 4px;
+      border-radius: 8px;
+    }
+    h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .subtitle {
+      font-size: 10px;
+      color: #94a3b8;
+    }
+    .mode-container {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      padding: 16px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .divider {
+      margin: 12px 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #475569;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #1e293b;
+    }
+    .mic-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid #34d399;
+      background: #10b981;
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mic-btn:hover { opacity: 0.85; }
+    .cam-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid #60a5fa;
+      background: #3b82f6;
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cam-btn:hover { opacity: 0.85; }
+    .btn-label-row {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 4px;
+    }
+    .btn-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      width: 64px;
+      text-align: center;
+    }
+    .file-label {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px dashed #475569;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+      color: #cbd5e1;
+      width: 100%;
+      font-weight: 600;
+    }
+    .file-label:hover {
+      border-color: #34d399;
+      background: #0f172a;
+    }
+    #fileInput { display: none; }
+    .status-text {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 8px;
+      color: #10b981;
+    }
+    .output-box {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      text-align: left;
+      display: none;
+    }
+    .output-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .output-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #34d399;
+      margin-top: 4px;
+    }
+    .raw-extracted {
+      font-size: 10px;
+      color: #64748b;
+      font-style: italic;
+      margin-top: 4px;
+      border-top: 1px solid #1e293b;
+      padding-top: 4px;
+    }
+    .btn-bridge {
+      display: block;
+      width: 100%;
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid #334155;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .btn-bridge:hover { background: #334155; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70%  { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-icon">📸</div>
+    <div>
+      <h1>KHAATA BANDHU</h1>
+      <div class="subtitle">Multi-Modal Voice &amp; OCR Engine</div>
+    </div>
+  </div>
+
+  <div class="mode-container">
+
+    <!-- Channel 1: Voice + Camera buttons side by side -->
+    <div class="btn-row">
+      <button id="micBtn" class="mic-btn">🎙️</button>
+      <button id="cameraBtn" class="cam-btn">📷</button>
+    </div>
+    <div class="btn-label-row">
+      <div class="btn-label">Voice</div>
+      <div class="btn-label">Camera</div>
+    </div>
+
+    <div id="statusText" class="status-text">Ready for Voice, Camera or Photo</div>
+
+    <div class="divider">OR</div>
+
+    <!-- Channel 2: File upload OCR -->
+    <label for="fileInput" class="file-label">
+      🖼️ Upload Bill / Receipt Photo
+    </label>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <!-- Output Block -->
+    <div id="outputBox" class="output-box">
+      <div class="output-title">Mapped Transaction Payload:</div>
+      <div id="outputText" class="output-text">Processing...</div>
+      <div id="rawText" class="raw-extracted"></div>
+    </div>
+
+  </div>
+
+  <a id="dashboardLink" href="https://github.com/samarthj-7/khataBandhu" target="_blank" class="btn-bridge">
+    Go to VyapaarPal Web Dashboard →
+  </a>
+
+  <script src="popup.js"></script>
+</body>
+</html>

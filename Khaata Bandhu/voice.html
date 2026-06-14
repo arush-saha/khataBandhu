@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Khaata Bandhu Voice</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      gap: 20px;
+    }
+    h2 { color: #34d399; font-size: 22px; }
+    .mic-btn {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #34d399;
+      background: #10b981;
+      font-size: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .mic-btn.listening {
+      background: #ef4444;
+      border-color: #f87171;
+      animation: pulse 1.5s infinite;
+    }
+    .mic-btn:disabled {
+      background: #334155;
+      border-color: #475569;
+      cursor: not-allowed;
+    }
+    .status {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #10b981;
+    }
+    .result-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      width: 400px;
+      display: none;
+      text-align: center;
+    }
+    .result-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #34d399;
+    }
+    .raw-text {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      70%  { box-shadow: 0 0 0 15px rgba(239,68,68,0); }
+      100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    }
+  </style>
+</head>
+<body>
+  <h2>🎙️ KHAATA BANDHU Voice Entry</h2>
+  <button class="mic-btn" id="micBtn" disabled>🎙️</button>
+  <div class="status" id="statusText">Requesting mic permission...</div>
+  <div class="result-box" id="resultBox">
+    <div class="result-text" id="resultText"></div>
+    <div class="raw-text" id="rawText"></div>
+  </div>
+
+  <script src="voice.js"></script>
+</body>
+</html>

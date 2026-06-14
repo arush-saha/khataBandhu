@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Khaata Bandhu Multi-Modal Intake",
+  "version": "1.1",
+  "description": "Quick-access voice and image processing voucher tool to log customer debts onto your business ledger.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["tabs"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+  "tesseract.min.js",
+  "worker.min.js",
+  "tesseract-core.wasm.js",
+  "tesseract-core-simd-lstm.wasm.js",
+  "lang-data/*",
+  "voice.html",
+  "voice.js",
+  "camera.html",
+  "camera.js"
+],
+      "matches": ["chrome-extension://*/*"]
+    }
+  ]
+}
